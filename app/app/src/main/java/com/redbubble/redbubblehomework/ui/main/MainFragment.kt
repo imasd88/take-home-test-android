@@ -20,6 +20,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.net.URL
 
+/*should be in a seperate file for maintainability*/
 data class HomeModel(
     val type: String,
     val id: String,
@@ -51,13 +52,15 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        /*Should not be in View class as it creates tight coupling*/
         fetchData()
     }
 
     private fun fetchData() {
+        /*GlobalScopes have scope of the App, they might cause memory leaks. Use Lifecycle aware scope*/
         GlobalScope.launch(Dispatchers.IO) {
             try {
+                /*url should be used through endpoint class*/
                 val data = URL("https://take-home-test.herokuapp.com/bff/explore.json").readText()
                 val items = parseResponse(data)
                 GlobalScope.launch(Dispatchers.Main) ui@{
@@ -71,6 +74,7 @@ class MainFragment : Fragment() {
         }
     }
 
+    /*show be in ViewModel*/
     private fun parseResponse(data: String): List<HomeModel> {
         val items = arrayListOf<HomeModel>()
         val json = JSONObject(data)
@@ -101,6 +105,8 @@ class MainFragment : Fragment() {
     }
 }
 
+/*move to adapter file*/
+/*glide is not required to be passed as a parameter here*/
 class HomeAdapter(private val list: List<HomeModel>, val glide: RequestManager) :
     RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
@@ -124,6 +130,7 @@ class HomeAdapter(private val list: List<HomeModel>, val glide: RequestManager) 
             } else {
                 "by ${it.artist}"
             }
+            /*could be used through bindind adapter*/
             glide.load(it.thumbnailUrl)
                 .centerCrop()
                 .into(holder.binding.image)
@@ -134,3 +141,4 @@ class HomeAdapter(private val list: List<HomeModel>, val glide: RequestManager) 
         return list.size
     }
 }
+
