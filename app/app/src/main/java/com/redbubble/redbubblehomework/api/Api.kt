@@ -5,5 +5,5 @@ object Api {
 
     val explore = baseUrl.plus("explore.json")
 
-    fun getDetailEndpoint(id: String) = baseUrl.plus("/workDetails").plus("$id.json")
+    fun getDetailEndpoint(id: String) = baseUrl.plus("workDetails/").plus("$id.json")
 }

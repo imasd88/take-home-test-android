@@ -7,7 +7,7 @@ import com.redbubble.redbubblehomework.BR
 import com.redbubble.redbubblehomework.databinding.ItemProductBinding
 import com.redbubble.redbubblehomework.model.HomeModel
 
-class HomeAdapter() :
+class HomeAdapter(var block: (id: String, type: String) -> Unit = { s: String, s1: String -> }) :
     RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     var list: List<HomeModel> = emptyList()
@@ -19,8 +19,10 @@ class HomeAdapter() :
     inner class ViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(homeModel: HomeModel) {
-            binding.setVariable(BR.viewModel, homeModel)
-            binding.executePendingBindings()
+            binding.apply {
+                setVariable(BR.viewModel, homeModel)
+                executePendingBindings()
+            }
         }
     }
 
@@ -35,7 +37,11 @@ class HomeAdapter() :
     }
 
     override fun onBindViewHolder(holder: HomeAdapter.ViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.apply {
+            val item = list[position]
+            bind(item)
+            itemView.setOnClickListener { block(item.id, item.type) }
+        }
     }
 
     override fun getItemCount(): Int {

@@ -1,51 +1,55 @@
-package com.redbubble.redbubblehomework.ui.main
+package com.redbubble.redbubblehomework.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.redbubble.redbubblehomework.R
 import com.redbubble.redbubblehomework.adapter.HomeAdapter
-import com.redbubble.redbubblehomework.databinding.MainFragmentBinding
+import com.redbubble.redbubblehomework.databinding.DetailFragmentBinding
+import com.redbubble.redbubblehomework.model.DetailModel
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class MainFragment : Fragment(), CoroutineScope {
+class DetailFragment : Fragment(), CoroutineScope {
 
     private lateinit var job: Job
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    private val viewModel by lazy {
-        ViewModelProvider(requireActivity()).get(MainFragmentViewModel::class.java)
+    val viewModel by lazy {
+        ViewModelProvider(requireActivity()).get(DetailFragmentViewModel::class.java)
     }
 
-    private lateinit var binding: MainFragmentBinding
+    lateinit var workDetails: DetailModel
 
-    private val homeModelAdapter = HomeAdapter { id, type -> showDetailInformation(id, type) }
+    private var homeModelAdapter = HomeAdapter()
+
+    private lateinit var binding: DetailFragmentBinding
+
+    private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.inflate<MainFragmentBinding>(
-            inflater,
-            R.layout.main_fragment,
+        binding = DataBindingUtil.inflate<DetailFragmentBinding>(
+            layoutInflater,
+            R.layout.detail_fragment,
             container,
             false
         ).also {
             it.lifecycleOwner = activity
         }
+
         binding.rvHome.apply {
             adapter =
                 homeModelAdapter
@@ -57,14 +61,20 @@ class MainFragment : Fragment(), CoroutineScope {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchData()
+        fetchData(if (args.type == "PRODUCT") args.id.substringBefore("_") else args.id)
     }
 
-    private fun fetchData() {
+    private fun fetchData(id: String) {
         job = launch {
             try {
-                homeModelAdapter.list = withContext(Dispatchers.IO) {
-                    viewModel.fetchData()
+                val data = withContext(Dispatchers.IO) {
+
+                    viewModel.fetchData(id)
+                }
+                viewModel.parseResponse(data)
+                homeModelAdapter.list = viewModel.getAvailableProducts()
+                viewModel.getWorkDetails()?.apply {
+                    workDetails = this
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -72,10 +82,4 @@ class MainFragment : Fragment(), CoroutineScope {
         }
     }
 
-    private fun showDetailInformation(id: String, type: String) {
-        Log.e("AS", "test")
-        val mNavController = Navigation.findNavController(requireActivity(), R.id.main_fragment)
-        mNavController.navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(id, type))
-    }
 }
-
