@@ -12,8 +12,8 @@ import java.net.URL
 
 class MainFragmentViewModel : ViewModel() {
 
-//    val mutableHomeModelLiveData = MutableLiveData<List<HomeModel>>()
-//    val liveHomeModel: LiveData<List<HomeModel>> = mutableHomeModelLiveData
+//    val mutableHomeModelLiveData = MutableLiveData<HomeModel>()
+//    val liveHomeModel: LiveData<HomeModel> = mutableHomeModelLiveData
 
     fun fetchData(): List<HomeModel> {
         val data = URL(Api.explore).readText()

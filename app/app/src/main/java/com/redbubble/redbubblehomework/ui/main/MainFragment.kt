@@ -17,7 +17,7 @@ import kotlin.coroutines.CoroutineContext
 
 class MainFragment : Fragment(), CoroutineScope {
 
-    lateinit var job: Job
+    private lateinit var job: Job
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
@@ -71,10 +71,10 @@ class MainFragment : Fragment(), CoroutineScope {
                 list = withContext(Dispatchers.IO) {
                     viewModel.fetchData()
                 }
-                homeModelAdapter.list = list
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+            homeModelAdapter.list = list
         }
     }
 }
