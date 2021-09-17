@@ -31,6 +31,7 @@ class MainFragmentViewModel : ViewModel() {
             try {
                 items.add(
                     HomeModel(
+                        isDetail = false,
                         type = item.getString("type"),
                         id = item.getString("id"),
                         title = item.getString("title"),

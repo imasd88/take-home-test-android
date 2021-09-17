@@ -35,6 +35,7 @@ class DetailFragmentViewModel : ViewModel() {
             try {
                 items.add(
                     HomeModel(
+                        isDetail = true,
                         type = "",
                         id = item.getString("id"),
                         title = item.getString("title"),

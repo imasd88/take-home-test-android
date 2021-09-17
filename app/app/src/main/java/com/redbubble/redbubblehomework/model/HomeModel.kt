@@ -1,6 +1,7 @@
 package com.redbubble.redbubblehomework.model
 
 data class HomeModel(
+    val isDetail: Boolean,
     val type: String,
     val id: String,
     val title: String,

@@ -1,5 +1,7 @@
 package com.redbubble.redbubblehomework.ui.detail
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.redbubble.redbubblehomework.MainActivity
 import com.redbubble.redbubblehomework.R
 import com.redbubble.redbubblehomework.adapter.HomeAdapter
 import com.redbubble.redbubblehomework.databinding.DetailFragmentBinding
@@ -55,6 +58,13 @@ class DetailFragment : Fragment(), CoroutineScope {
             layoutManager = GridLayoutManager(context, 2)
 
         }
+
+//        (activity as MainActivity).supportActionBar?.apply {
+//            setDisplayHomeAsUpEnabled(true)
+//            title = ""
+//            setBackgroundDrawable(ColorDrawable(Color.WHITE))
+//
+//        }
 
         return binding.root
     }
