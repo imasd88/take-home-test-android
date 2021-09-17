@@ -1,7 +1,5 @@
 package com.redbubble.redbubblehomework.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.redbubble.redbubblehomework.api.Api
 import com.redbubble.redbubblehomework.model.HomeModel
@@ -11,9 +9,6 @@ import org.json.JSONObject
 import java.net.URL
 
 class MainFragmentViewModel : ViewModel() {
-
-//    val mutableHomeModelLiveData = MutableLiveData<HomeModel>()
-//    val liveHomeModel: LiveData<HomeModel> = mutableHomeModelLiveData
 
     fun fetchData(): List<HomeModel> {
         val data = URL(Api.explore).readText()
