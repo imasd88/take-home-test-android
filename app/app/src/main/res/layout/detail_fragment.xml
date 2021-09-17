@@ -2,9 +2,10 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.redbubble.redbubblehomework.model.DetailModel" />
+            type="com.redbubble.redbubblehomework.ui.detail.DetailFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,18 +17,36 @@
 
         <ImageView
             android:id="@+id/heroImage"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-
-            app:layout_constraintLeft_toLeftOf="parent"
+            img='@{viewModel.liveDataDetailModel.imageUrl}'
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="W,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@color/cardview_dark_background" />
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/heroImage"-->
+        <!--            img="https://ih0.redbubble.net/image.3460655.0930/flat,1000x,075,f.jpg"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            android:src="@color/cardview_dark_background" />-->
+        <TextView
+            android:id="@+id/text"
+            value='@{viewModel.liveDataDetailModel.title}'
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_home"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_height="0dp"
+            app:layout_constrainedHeight="true"
             app:layout_constraintTop_toBottomOf="@id/heroImage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.redbubble.redbubblehomework.utils
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -16,8 +17,15 @@ fun setUpDesc(textView: TextView, homeModel: HomeModel) {
 }
 
 @BindingAdapter("img")
-fun getImage(imageView: ImageView, src: String) {
+fun getImage(imageView: ImageView, src: String?) {
+    Log.e("ASD", "src >>>> $src")
     with(src) {
         Glide.with(imageView).load(this).into(imageView)
     }
+}
+
+@BindingAdapter("value")
+fun setValue(textView: TextView, string: String?){
+Log.e("ASD", "string >>>> $string")
+    textView.text = string
 }

@@ -1,6 +1,7 @@
 package com.redbubble.redbubblehomework.ui.detail
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.redbubble.redbubblehomework.api.Api
 import com.redbubble.redbubblehomework.model.DetailModel
@@ -9,23 +10,18 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.net.URL
-import kotlin.math.log10
 
 class DetailFragmentViewModel : ViewModel() {
 
-    private var availableProductsList = arrayListOf<HomeModel>()
-    private var workDetails: DetailModel? = null
+    val mutableLiveDataDetailModel = MutableLiveData<DetailModel>()
+    val liveDataDetailModel: LiveData<DetailModel> = mutableLiveDataDetailModel
 
-    fun fetchData(id: String): String {
-         val temp = URL(Api.getDetailEndpoint(id)).readText()
-        return temp
-//        return parseResponse(data)
+    fun fetchData(id: String): DetailModel {
+        val data = URL(Api.getDetailEndpoint(id)).readText()
+        return parseResponse(data)
     }
 
-    fun getAvailableProducts() = availableProductsList
-    fun getWorkDetails() = workDetails
-
-    fun parseResponse(data: String) {
+    fun parseResponse(data: String): DetailModel {
         val items = arrayListOf<HomeModel>()
         val json = JSONObject(data)
         val workDetailsObj: JSONObject = json.getJSONObject("workDetails")
@@ -54,23 +50,17 @@ class DetailFragmentViewModel : ViewModel() {
             }
         }
 
-        availableProductsList = items
-
-
-        val workDetailItems = DetailModel(
+        return DetailModel(
             id = workDetailsObj.getString("id"),
             title = workDetailsObj.getString("title"),
-            artist = workDetailsObj.optString("artist"),
             avatarUrl = workDetailsObj.optJSONObject("artist").getString("avatarUrl"),
-            description = workDetailsObj.optString("description"),
-            artistId = workDetailsObj.optString("id"),
-            userName = "",
+            description = workDetailsObj.optJSONObject("artist").getString("description"),
+            artistId = workDetailsObj.optJSONObject("artist").getString("id"),
+            userName = workDetailsObj.optJSONObject("artist").getString("username"),
             imageUrl = workDetailsObj.optString("imageUrl"),
-            workDetailSafeForWork = "",
-            shareUrl = "",
+            safeForWork = workDetailsObj.getString("safeForWork"),
+            shareUrl = workDetailsObj.optString("shareUrl"),
             availableProducts = items
         )
-
-        workDetails = workDetailItems
     }
 }

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.redbubble.redbubblehomework.R
 import com.redbubble.redbubblehomework.adapter.HomeAdapter
 import com.redbubble.redbubblehomework.databinding.DetailFragmentBinding
-import com.redbubble.redbubblehomework.model.DetailModel
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -23,11 +22,9 @@ class DetailFragment : Fragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    val viewModel by lazy {
+    private val viewModel by lazy {
         ViewModelProvider(requireActivity()).get(DetailFragmentViewModel::class.java)
     }
-
-    lateinit var workDetails: DetailModel
 
     private var homeModelAdapter = HomeAdapter()
 
@@ -40,14 +37,16 @@ class DetailFragment : Fragment(), CoroutineScope {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.inflate<DetailFragmentBinding>(
-            layoutInflater,
+            inflater,
             R.layout.detail_fragment,
             container,
             false
         ).also {
-            it.lifecycleOwner = activity
+            it.lifecycleOwner = this
+            it.viewModel = viewModel
         }
 
         binding.rvHome.apply {
@@ -65,17 +64,14 @@ class DetailFragment : Fragment(), CoroutineScope {
     }
 
     private fun fetchData(id: String) {
-        job = launch {
+        job = launch ui@{
             try {
                 val data = withContext(Dispatchers.IO) {
 
                     viewModel.fetchData(id)
                 }
-                viewModel.parseResponse(data)
-                homeModelAdapter.list = viewModel.getAvailableProducts()
-                viewModel.getWorkDetails()?.apply {
-                    workDetails = this
-                }
+                homeModelAdapter.list = data.availableProducts
+                viewModel.mutableLiveDataDetailModel.postValue(data)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

@@ -77,5 +77,10 @@ class MainFragment : Fragment(), CoroutineScope {
         val mNavController = Navigation.findNavController(requireActivity(), R.id.main_fragment)
         mNavController.navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(id, type))
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        job.cancel()
+    }
 }
 
