@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.redbubble.redbubblehomework.model.HomeModel
 
 @BindingAdapter("desc")
@@ -24,8 +25,15 @@ fun getImage(imageView: ImageView, src: String?) {
     }
 }
 
+@BindingAdapter("circularImg")
+fun getCircularImage(imageView: ImageView, src: String?) {
+    with(src) {
+        Glide.with(imageView).load(this).apply(RequestOptions.circleCropTransform()).into(imageView)
+    }
+}
+
 @BindingAdapter("value")
-fun setValue(textView: TextView, string: String?){
-Log.e("ASD", "string >>>> $string")
+fun setValue(textView: TextView, string: String?) {
+    Log.e("ASD", "string >>>> $string")
     textView.text = string
 }

@@ -53,6 +53,7 @@ class DetailFragment : Fragment(), CoroutineScope {
             adapter =
                 homeModelAdapter
             layoutManager = GridLayoutManager(context, 2)
+
         }
 
         return binding.root
