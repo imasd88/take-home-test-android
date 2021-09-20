@@ -46,17 +46,7 @@ class DetailFragmentViewModelTest : TestCase() {
                 "        \"safeForWork\": false,\n" +
                 "        \"thumbnailUrl\": \"https://ih1.redbubble.net/image.850858326.0936/gptr,1265x,front,black-c,330,402,600,600-bg,f8f8f8.u2.jpg\",\n" +
                 "        \"title\": \"Graphic T-Shirt\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"id\": \"39670936_beaut-razoo_6AQD3\",\n" +
-                "        \"price\": {\n" +
-                "          \"amount\": 40,\n" +
-                "          \"currency\": \"AUD\"\n" +
-                "        },\n" +
-                "        \"safeForWork\": true,\n" +
-                "        \"thumbnailUrl\": \"https://ih1.redbubble.net/image.850857794.0936/ctkr,x1862,front,black-c,324,409,600,600-bg,f8f8f8.u2.jpg\",\n" +
-                "        \"title\": \"Sleeveless Top\"\n" +
-                "      }\n" +
+                "      }" +
                 "    ]\n" +
                 "    }\n" +
                 "  }"

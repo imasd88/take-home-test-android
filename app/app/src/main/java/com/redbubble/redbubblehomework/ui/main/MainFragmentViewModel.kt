@@ -10,12 +10,11 @@ import java.net.URL
 
 class MainFragmentViewModel : ViewModel() {
 
-    fun fetchData(): List<HomeModel> {
-        val data = URL(Api.explore).readText()
-        return parseResponse(data)
+    fun fetchData(): String {
+        return URL(Api.explore).readText()
     }
 
-    private fun parseResponse(data: String): List<HomeModel> {
+    fun parseResponse(data: String): List<HomeModel> {
         val items = arrayListOf<HomeModel>()
         val json = JSONObject(data)
         val home: JSONArray = json.getJSONArray("home") ?: return emptyList()

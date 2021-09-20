@@ -1,7 +1,6 @@
 package com.redbubble.redbubblehomework.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,7 +63,8 @@ class MainFragment : Fragment(), CoroutineScope {
         job = launch {
             try {
                 homeModelAdapter.list = withContext(Dispatchers.IO) {
-                    viewModel.fetchData()
+                    val data = viewModel.fetchData()
+                    viewModel.parseResponse(data)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -19,7 +19,6 @@ class DetailFragmentViewModel : ViewModel() {
 
     fun fetchData(id: String): String {
         return URL(Api.getDetailEndpoint(id)).readText()
-//        return parseResponse(data)
     }
 
      fun parseResponse(data: String): DetailModel {
