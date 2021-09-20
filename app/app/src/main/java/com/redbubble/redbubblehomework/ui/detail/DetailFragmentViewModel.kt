@@ -14,14 +14,15 @@ import java.net.URL
 class DetailFragmentViewModel : ViewModel() {
 
     val mutableLiveDataDetailModel = MutableLiveData<DetailModel>()
-    val liveDataDetailModel: LiveData<DetailModel> = mutableLiveDataDetailModel
+    val liveDataDetailModel: LiveData<DetailModel>
+        get() = mutableLiveDataDetailModel
 
-    fun fetchData(id: String): DetailModel {
-        val data = URL(Api.getDetailEndpoint(id)).readText()
-        return parseResponse(data)
+    fun fetchData(id: String): String {
+        return URL(Api.getDetailEndpoint(id)).readText()
+//        return parseResponse(data)
     }
 
-    fun parseResponse(data: String): DetailModel {
+     fun parseResponse(data: String): DetailModel {
         val items = arrayListOf<HomeModel>()
         val json = JSONObject(data)
         val workDetailsObj: JSONObject = json.getJSONObject("workDetails")
@@ -54,10 +55,10 @@ class DetailFragmentViewModel : ViewModel() {
         return DetailModel(
             id = workDetailsObj.getString("id"),
             title = workDetailsObj.getString("title"),
-            avatarUrl = workDetailsObj.optJSONObject("artist").getString("avatarUrl"),
-            description = workDetailsObj.optJSONObject("artist").getString("description"),
-            artistId = workDetailsObj.optJSONObject("artist").getString("id"),
-            userName = workDetailsObj.optJSONObject("artist").getString("username"),
+            avatarUrl = workDetailsObj.getJSONObject("artist").getString("avatarUrl"),
+            description = workDetailsObj.getJSONObject("artist").getString("description"),
+            artistId = workDetailsObj.getJSONObject("artist").getString("id"),
+            userName = workDetailsObj.getJSONObject("artist").getString("username"),
             imageUrl = workDetailsObj.optString("imageUrl"),
             safeForWork = workDetailsObj.getString("safeForWork"),
             shareUrl = workDetailsObj.optString("shareUrl"),

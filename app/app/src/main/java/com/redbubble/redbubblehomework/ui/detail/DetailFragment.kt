@@ -1,7 +1,5 @@
 package com.redbubble.redbubblehomework.ui.detail
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.redbubble.redbubblehomework.MainActivity
 import com.redbubble.redbubblehomework.R
 import com.redbubble.redbubblehomework.adapter.HomeAdapter
 import com.redbubble.redbubblehomework.databinding.DetailFragmentBinding
@@ -59,13 +56,6 @@ class DetailFragment : Fragment(), CoroutineScope {
 
         }
 
-//        (activity as MainActivity).supportActionBar?.apply {
-//            setDisplayHomeAsUpEnabled(true)
-//            title = ""
-//            setBackgroundDrawable(ColorDrawable(Color.WHITE))
-//
-//        }
-
         return binding.root
     }
 
@@ -78,11 +68,11 @@ class DetailFragment : Fragment(), CoroutineScope {
         job = launch ui@{
             try {
                 val data = withContext(Dispatchers.IO) {
-
                     viewModel.fetchData(id)
                 }
-                homeModelAdapter.list = data.availableProducts
-                viewModel.mutableLiveDataDetailModel.postValue(data)
+                val model = viewModel.parseResponse(data)
+                homeModelAdapter.list = model.availableProducts
+                viewModel.mutableLiveDataDetailModel.postValue(model)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
