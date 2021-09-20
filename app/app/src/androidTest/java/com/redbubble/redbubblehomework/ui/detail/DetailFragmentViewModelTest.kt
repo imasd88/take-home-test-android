@@ -1,10 +1,8 @@
 package com.redbubble.redbubblehomework.ui.detail
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import junit.framework.TestCase
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -12,9 +10,6 @@ import org.junit.runner.RunWith
 class DetailFragmentViewModelTest : TestCase() {
 
     //basic tests only
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var detailFragmentViewModel: DetailFragmentViewModel
     private var rawData = ""
