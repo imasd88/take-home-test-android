@@ -79,4 +79,9 @@ class DetailFragment : Fragment(), CoroutineScope {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        job.cancel()
+    }
+
 }

@@ -73,7 +73,6 @@ class MainFragment : Fragment(), CoroutineScope {
     }
 
     private fun showDetailInformation(id: String, type: String) {
-        Log.e("AS", "test")
         val mNavController = Navigation.findNavController(requireActivity(), R.id.main_fragment)
         mNavController.navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(id, type))
     }
